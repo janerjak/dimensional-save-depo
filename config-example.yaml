@@ -1,0 +1,64 @@
+offload_server:
+    http_api:
+        host: "example.com"
+        port: "7777"
+        protocol: "https"
+        endpoint: "/api/v1"
+    api_authentication:
+        token: xxxxxxxxxxxxxxxxxxxxxxxxxxxx.XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    ssh_authentication:
+        credentials:
+            host: example.com
+            user: root
+            password: ~ # NOTE: None <=> Use ssh keychain instead
+
+save_file:
+    session_name: YOUR SESSION NAME
+    path_to_save_directory: "%localappdata%/FactoryGame/Saved/SaveGames/YOUR_STEAM_ID" # For Epic Games, look for the matching path
+    include_autosaves: true
+    naming:
+        upload:
+            suffix: " (uploaded using save-depo)"
+            include_timestamp: true
+        download:
+            suffix: " (background progress using save-depo)"
+            include_timestamp: true
+            include_playtime: true
+
+game:
+    containing_path: "C:/Program Files (x86)/Steam/steamapps/common/Satisfactory"
+    executable_name: "FactoryGame.exe"
+
+play_observation:
+    method:
+        type: process_polling
+        args:
+            interval_in_seconds: 5
+
+uploading:
+    method:
+        type: api
+    restart_server_first:
+        method:
+            type: ssh_command
+            args:
+                command: docker compose -f "/path/to/compose.yaml" up -d
+                credentials: ~ # Use default as defined above
+        ### Alternatively...
+        #    type: disable_pausing # NOTE: Not implemented yet
+    load_game_after_upload: true
+
+downloading:
+    method:
+        type: api
+    shutdown_server_after:
+        method:
+            type: ssh_command
+            args:
+                command: docker compose -f "/path/to/compose.yaml" down
+                credentials: ~ # Use default as defined above
+        ### Alternatively...
+        #    type: enable_pausing # NOTE: Not implemented yet
+        #method:
+        #    type: api # NOTE: Not implemented yet
+
