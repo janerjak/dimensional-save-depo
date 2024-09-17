@@ -67,3 +67,5 @@ downloading:
         #method:
         #    type: api # NOTE: Not implemented yet
 
+behavior:
+    enable_and_disable_autopausing_on_demand: true
