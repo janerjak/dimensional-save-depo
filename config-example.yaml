@@ -16,6 +16,7 @@ save_file:
     session_name: YOUR SESSION NAME
     path_to_save_directory: "%localappdata%/FactoryGame/Saved/SaveGames/YOUR_STEAM_ID" # For Epic Games, look for the matching path
     include_autosaves: true
+    check_for_correct_session_name: true
     naming:
         upload:
             suffix: " (uploaded using save-depo)"
@@ -27,7 +28,7 @@ save_file:
 
 game:
     containing_path: "C:/Program Files (x86)/Steam/steamapps/common/Satisfactory"
-    executable_name: "FactoryGame.exe"
+    executable_name: "FactoryGameSteam.exe"
 
 play_observation:
     method:
@@ -39,6 +40,7 @@ uploading:
     method:
         type: api
     restart_server_first:
+        error_if_players_connected: true
         method:
             type: ssh_command
             args:
@@ -52,6 +54,7 @@ downloading:
     method:
         type: api
     shutdown_server_after:
+        error_if_players_connected: true
         method:
             type: ssh_command
             args:
@@ -59,6 +62,8 @@ downloading:
                 credentials: ~ # Use default as defined above
         ### Alternatively...
         #    type: enable_pausing # NOTE: Not implemented yet
+        #    args:
+        #        wait_for_pause_to_become_active: true
         #method:
         #    type: api # NOTE: Not implemented yet
 
